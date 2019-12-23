@@ -23,16 +23,6 @@ app.use(
 // Making plain http server for web socket usage
 const server = Server(app);
 
-
-
-
-// // create a message
-// const helloWorldMessage = 'hello world'
-
-// messages.push(helloWorldMessage)
-
-// pubsub.publish('newMessage', helloWorldMessage);
-
 SubscriptionServer.create(
   {
     schema,
