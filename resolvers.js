@@ -18,13 +18,10 @@ const consumerOptions = {
 const consumer = new kafka.ConsumerGroup(consumerOptions, "graphql");
 
 consumer.on("message", data => {
-  pubsub.publish(newMessageTopic, { newMessage: data.value} )
+  pubsub.publish(newMessageTopic, { newMessage: data.value });
 });
 
-
-
-
-const messages = ["hahaha"];
+const messages = ["hahaha", "orayt"];
 module.exports = {
   Query: {
     messages: () => messages

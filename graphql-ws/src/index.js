@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { split } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
+import { createHttpLink, HttpLink } from 'apollo-link-http'
 import { ApolloProvider } from "react-apollo";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { SubscriptionClient } from "subscriptions-transport-ws";
+import { WebSocketLink } from 'apollo-link-ws'
 import ApolloClient from "apollo-client";
 import { getMainDefinition } from 'apollo-utilities';
 
@@ -14,16 +15,15 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 // Create WebSocket client
-const WSClient = new SubscriptionClient(`ws://localhost:4000/api/ws`, {
-  reconnect: true,
-  connectionParams: {
-    // Connection parameters to pass some validations
-    // on server side during first handshake
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:4000/api/ws',
+  options: {
+    reconnect: true
   }
 });
 
 // Create an http link:
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: 'http://localhost:4000/api/ql'
 });
 
@@ -39,7 +39,7 @@ const link = split(
       definition.operation === 'subscription'
     );
   },
-  WSClient,
+  wsLink,
   httpLink,
 );
 

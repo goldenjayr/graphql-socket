@@ -1,7 +1,7 @@
 const { Server } = require("http");
 const { SubscriptionServer } = require("subscriptions-transport-ws");
 const { execute, subscribe } = require("graphql");
-
+const cors = require('cors')
 const { makeExecutableSchema } = require('graphql-tools')
 const GraphqlHTTP = require("express-graphql");
 const app = require("express")();
@@ -11,6 +11,8 @@ const typeDefs = require('./typeDefs')
 const resolvers = require("./resolvers");
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
+
+app.use(cors())
 
 app.use(
   "/api/ql",
